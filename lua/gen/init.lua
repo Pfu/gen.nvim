@@ -259,9 +259,9 @@ local function create_window(cmd, opts)
             vim.fn.jobstop(globals.job_id)
             globals.job_id = nil
         end
-        vim.api.nvim_buf_set_option(buf, "modifiable", true)
+        vim.bo[buf].modifiable = true
         vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
-        vim.api.nvim_buf_set_option(buf, "modifiable", false)
+        vim.bo[buf].modifiable = false
         -- vim.api.nvim_win_close(0, true)
         M.run_command(cmd, opts)
     end, { buffer = globals.result_buffer })
