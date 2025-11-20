@@ -68,7 +68,7 @@ local default_options = {
     end,
     list_models = function(options)
         local response = vim.fn.systemlist(
-            "curl -q --silent --no-buffer http://" .. options.host .. ":" .. options.port .. "/api/tags"
+            "curl -q --silent --no-buffer http://" .. options.host .. ":" .. options.port .. "/models"
         )
         local list = vim.fn.json_decode(response)
         local models = {}
