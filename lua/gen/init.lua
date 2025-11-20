@@ -58,7 +58,7 @@ local default_options = {
             .. options.host
             .. ":"
             .. options.port
-            .. "/api/chat -d $body"
+            .. "/v1/api/chat -d $body"
     end,
     json_response = true,
     display_mode = "float",
@@ -68,7 +68,7 @@ local default_options = {
     end,
     list_models = function(options)
         local response = vim.fn.systemlist(
-            "curl -q --silent --no-buffer http://" .. options.host .. ":" .. options.port .. "/models"
+            "curl -q --silent --no-buffer http://" .. options.host .. ":" .. options.port .. "/v1/models"
         )
         local list = vim.fn.json_decode(response)
         local models = {}
