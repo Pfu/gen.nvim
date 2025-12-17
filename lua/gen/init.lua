@@ -383,6 +383,13 @@ M.exec = function(options)
     M.run_command(cmd, opts)
 end
 
+local function safe_str(v)
+    if v == nil or v == vim.NIL then
+        return ""
+    end
+    return v
+end
+
 M.run_command = function(cmd, opts)
     if globals.result_buffer == nil or globals.float_win == nil or not vim.api.nvim_win_is_valid(globals.float_win) then
         create_window(cmd, opts)
@@ -561,7 +568,7 @@ function Process_response(str, json_response, debug)
         end)
         if success then
             if result.message and result.message.content then
-                text = result.message.content
+                text = safe_str(result.message.content)
                 globals.context = globals.context or {}
                 globals.context_buffer = globals.context_buffer or ""
                 globals.context_buffer = globals.context_buffer .. text
@@ -574,9 +581,9 @@ function Process_response(str, json_response, debug)
                 end
             elseif result.choices then
                 local choice = result.choices[1]
-                local content = choice.delta.content
+                local content = safe_str(choice.delta.content)
                 text = content
-                if content ~= nil then
+                if content ~= "" then
                     globals.context = globals.context or {}
                     globals.context_buffer = globals.context_buffer or ""
                     globals.context_buffer = globals.context_buffer .. content
@@ -589,18 +596,18 @@ function Process_response(str, json_response, debug)
                     globals.context_buffer = ""
                 end
             elseif result.content then
-                text = result.content
+                text = safe_str(result.content)
                 globals.context = result.content
             elseif result.response then
-                text = result.response
+                text = safe_str(result.response)
                 if result.context then
                     globals.context = result.context
                 end
             else
                 if result.reasoning_content then
-                    text = result.reasoning_content
+                    text = safe_str(result.reasoning_content)
                 elseif result.content then
-                    text = result.content
+                    text = safe_str(result.content)
                 end
             end
         else
@@ -614,7 +621,7 @@ function Process_response(str, json_response, debug)
     else
         text = str
     end
-    if text == nil then
+    if text == nil or text == "" then
         return
     end
     globals.result_string = globals.result_string .. text
