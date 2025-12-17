@@ -138,7 +138,7 @@ end
 
 local function get_window_options(opts)
     local cursor = vim.api.nvim_win_get_cursor(0)
-    local new_win_width = vim.api.nvim_win_get_width(0)
+    local win_width = vim.api.nvim_win_get_width(0)
     local win_height = vim.api.nvim_win_get_height(0)
     local middle_row = win_height / 2
     local new_win_height = math.floor(win_height / 2)
@@ -150,7 +150,7 @@ local function get_window_options(opts)
     end
     local result = {
         relative = "cursor",
-        width = new_win_width,
+        width = win_width,
         height = new_win_height,
         row = new_win_row,
         col = 0,
@@ -203,6 +203,8 @@ local function create_window(cmd, opts)
         vim.api.nvim_set_option_value("conceallevel", 2, { win = globals.float_win })
         vim.api.nvim_set_option_value("concealcursor", "nvic", { win = globals.float_win })
         vim.api.nvim_set_option_value("winhl", "Normal:NormalFloat", { win = globals.float_win })
+        vim.api.nvim_set_option_value("filetype", "markdown", { buf = globals.result_buffer })
+        vim.api.nvim_set_option_value("syntax", "on", { buf = globals.result_buffer })
     end
     local display_mode = opts.display_mode or M.display_mode
     if display_mode == "float" then
