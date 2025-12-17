@@ -54,11 +54,11 @@ local default_options = {
     retry_map = "<c-r>",
     hidden = false,
     command = function(options)
-        return "curl -q --silent --no-buffer -X POST http://"
+        return "curl -q -s -N -X POST http://"
             .. options.host
             .. ":"
             .. options.port
-            .. "/v1/api/chat -d $body"
+            .. "/v1/chat/completions -d $body"
     end,
     json_response = true,
     display_mode = "float",
@@ -68,7 +68,7 @@ local default_options = {
     end,
     list_models = function(options)
         local response = vim.fn.systemlist(
-            "curl -q --silent --no-buffer http://" .. options.host .. ":" .. options.port .. "/v1/models"
+            "curl -q -S -N http://" .. options.host .. ":" .. options.port .. "/v1/models"
         )
         local list = vim.fn.json_decode(response)
         local models = {}
