@@ -200,6 +200,7 @@ local function create_window(cmd, opts)
         vim.api.nvim_set_option_value("buftype", "nofile", { buf = globals.result_buffer })
         vim.api.nvim_set_option_value("wrap", true, { win = globals.float_win })
         vim.api.nvim_set_option_value("linebreak", true, { win = globals.float_win })
+        vim.api.nvim_set_option_value("conceallevel", 2, { win = globals.float_win })
     end
     local display_mode = opts.display_mode or M.display_mode
     if display_mode == "float" then
